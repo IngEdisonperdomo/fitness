@@ -1,15 +1,15 @@
 import React from 'react'
 import './style/Welcome.css'
 
-function Welcome(props){
-  return (
-    <div className="container">
+const Welcome = ({username}) => (
+  <div className="container">
       <div className="Fitness-User-Info">
-        <h1>Hello {props.username}</h1>
+        <h1>Hello {username}</h1>
         <p>Lest's workout to get some gains</p>
       </div>
     </div>
-  );
-}
+)
+
+
 
 export default Welcome;

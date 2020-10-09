@@ -1,6 +1,7 @@
 import React from 'react'
-import Card from '../components/Card'
+import Excersice from '../components/ExerciseList'
 import Welcome from '../components/Welcome'
+import AddButton from '../components/button'
 
 class Exercises extends React.Component {
 
@@ -33,14 +34,11 @@ class Exercises extends React.Component {
       <div>
         <Welcome username="Raul" />
 
+      <Excersice 
+        exercises={this.state.data}
+      />
 
-<Card
-            title="Technique Guides"
-            description="Learn amazing street workout"
-            img=""
-            leftColor="#A74CF2"
-            rightColor="#617BFB"
-          />
+      <AddButton />
         
 
       </div>
