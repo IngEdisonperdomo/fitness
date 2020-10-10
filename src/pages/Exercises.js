@@ -2,46 +2,69 @@ import React from 'react'
 import Excersice from '../components/ExerciseList'
 import Welcome from '../components/Welcome'
 import AddButton from '../components/button'
+import Loading from '../components/loading'
+import FatalError from './500'
 
 class Exercises extends React.Component {
 
-  constructor(props){
-    super(props)
-    this.state = {
-      data: [{
-        "id" : 1,
-        "title": "prueba",
-        "description": "esto es una prueba",
-        "img": "",
-        "leftColor": "#A74CF2",
-        "rightColor": "#617BFB"
-      },
-      {
-        "id" : 2,
-        "title": "prueba 22",
-        "description": "esto es una prueba 22",
-        "img": "",
-        "leftColor": "#17EAD9",
-        "rightColor": "#F76B1C"
-      }
-    ]
-    }
+  state = {
+    data: [],
+    loading: true,
+    error: null
   }
 
+  async componentDidMount() {
+
+    await this.fetchExcersices()
+  }
+
+  fetchExcersices = async () => {
+
+    try {
+
+      let res = await fetch('http://localhost:8000/api/exercises')
+      let data = await res.json();
+      console.log(data)
+
+      this.setState({
+        data,
+        loading: false
+      })
+
+    } catch (error) {
+      this.setState({
+        loading: false,
+        error
+      })
+    }
+
+
+  }
+
+
+
+
+
   render() {
+
+    if(this.state.loading)
+      return <Loading />
+    if(this.state.error)
+      return <FatalError />
+
     return (
 
-      <div>
+      <React.Fragment>
         <Welcome username="Raul" />
 
-      <Excersice 
-        exercises={this.state.data}
-      />
+        <Excersice
+          exercises={this.state.data}
+        />
 
-      <AddButton />
-        
+        <AddButton />
 
-      </div>
+
+      </React.Fragment>
     )
   }
 
