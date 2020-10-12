@@ -4,71 +4,35 @@ import Welcome from '../components/Welcome'
 import AddButton from '../components/button'
 import Loading from '../components/loading'
 import FatalError from './500'
+import useFetch from '../hooks/useFetch'
+import urlGet from '../config'
 
-class Exercises extends React.Component {
+const Exercises = () =>{
 
-  state = {
-    data: [],
-    loading: true,
-    error: null
-  }
+  const {data, loading, error } = useFetch(urlGet)
 
-  async componentDidMount() {
+  if(loading)
+    return <Loading />
+  if(error)
+    return <FatalError />
 
-    await this.fetchExcersices()
-  }
+  return (
 
-  fetchExcersices = async () => {
+    <React.Fragment>
+      <Welcome username="Raul" />
 
-    try {
+      <Excersice
+        exercises={data}
+      />
 
-      let res = await fetch('http://localhost:8000/api/exercises')
-      let data = await res.json();
-      console.log(data)
-
-      this.setState({
-        data,
-        loading: false
-      })
-
-    } catch (error) {
-      this.setState({
-        loading: false,
-        error
-      })
-    }
+      <AddButton />
 
 
-  }
-
-
-
-
-
-  render() {
-
-    if(this.state.loading)
-      return <Loading />
-    if(this.state.error)
-      return <FatalError />
-
-    return (
-
-      <React.Fragment>
-        <Welcome username="Raul" />
-
-        <Excersice
-          exercises={this.state.data}
-        />
-
-        <AddButton />
-
-
-      </React.Fragment>
-    )
-  }
-
+    </React.Fragment>
+  )
 
 }
-
 export default Exercises
+
+
+

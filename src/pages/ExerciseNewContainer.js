@@ -1,9 +1,11 @@
 import React from 'react'
-import ExcersiceFrom from '../components/exerciseForm'
-import Card from '../components/Card'
 import FatalError from './500'
+import ExcersiceNew from './excersiceNew'
+import urlGet from '../config'
 
-class ExerciseNew extends React.Component {
+
+
+class ExerciseNewContainer extends React.Component {
 
   state = {
     form:{
@@ -48,7 +50,7 @@ class ExerciseNew extends React.Component {
         body: JSON.stringify(this.state.form)
       }
 
-      let res = await fetch('http://localhost:8000/api/exercises', config)
+      let res = await fetch(urlGet, config)
       let json = await res.json();
       console.log(json);
 
@@ -71,26 +73,15 @@ class ExerciseNew extends React.Component {
     if(this.state.error)
       return <FatalError />
 
-    return (
+    return <ExcersiceNew  
+      form={this.state.form}
+      onChange={this.handleChange}
+      onSubmit={this.handleSubmit}
 
-      <div className="row">
-        <div className="col-sm">
-          <Card { ...this.state.form} /> 
-        </div>
-        <div className="col-sm">
-          <ExcersiceFrom 
-            onChange={this.handleChange} 
-            onSubmit={this.handleSubmit}
-            form={this.state.form}
-          />
-        </div>
-      </div>
-
-     
-    )
+    />
   }
 
 }
 
 
-export default ExerciseNew
+export default ExerciseNewContainer
